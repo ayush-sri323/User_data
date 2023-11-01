@@ -1,0 +1,18 @@
+# Use the official Go image as the base image
+FROM golang:1.19
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the Go source code into the container
+COPY user_client/user_client.go /app/user_client.go 
+COPY user/user.pb.go /app/user/user.pb.go
+COPY user/user_grpc.pb.go /app/user/user_grpc.pb.go 
+
+# Build the Go application
+RUN go mod init user
+RUN go mod tidy
+RUN go build -o user_client
+
+# Start the client when the container runs
+CMD ["./user_client"]

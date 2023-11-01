@@ -1,0 +1,24 @@
+# Use the official Go image as the base image
+FROM golang:1.19
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the Go source code into the container
+COPY main.go /app/main.go
+COPY user/user.pb.go /app/user/user.pb.go
+COPY user/user_grpc.pb.go /app/user/user_grpc.pb.go 
+
+# Build the Go application
+RUN pwd
+RUN go version
+RUN go mod init user
+RUN go mod tidy
+RUN go build -o main
+
+
+# Expose the gRPC server port
+EXPOSE 50051
+
+# Start the gRPC server when the container runs
+CMD ["./main"]

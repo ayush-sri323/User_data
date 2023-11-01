@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package user;
+option go_package = "user/userpb";
+
+message User {
+    int32 id = 1;
+    string fname = 2;
+    string city = 3;
+    int64 phone = 4;
+    float height = 5;
+    bool married = 6;
+}
+
+service UserService {
+    rpc CreateNewUser (UserRequest) returns (User) {}
+    rpc GetUserById (UserRequest) returns (User);
+    rpc GetUsersByIds (UsersRequest) returns (UsersResponse);
+}
+
+message UserRequest {
+    int32 id = 1;
+}
+
+message UsersRequest {
+    repeated int32 ids = 1;
+}
+
+message UsersResponse {
+    repeated User users = 1;
+}
+
